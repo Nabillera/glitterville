@@ -124,10 +124,15 @@ a:hover {
     position: relative;
 }
 
-#slide-picture {
+.slide-picture {
     width: 100%;
     max-height: 700px;
     object-fit: cover;
+    position: absolute;
+}
+#first-slide{
+    opacity: 100%;
+    position: relative;
 }
 
 #slide-circle-container{
@@ -154,8 +159,7 @@ a:hover {
     cursor: pointer;
     transition-duration: 0.25s;
 }
-.slide-circle:hover, 
-.slide-circle:focus{
+.slide-circle:hover{
     margin: 0;
     height: 12px;
     width: 12px;
