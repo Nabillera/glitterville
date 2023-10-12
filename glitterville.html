@@ -56,11 +56,11 @@
         <img id="fifth-slide" class="slide-picture" src="images/slideshow5.webp">
 
         <div id="slide-circle-container">
-            <div onclick="slideshow(0)" id="first-circle" class="slide-circle"></div>
-            <div onclick="slideshow(1)" id="second-circle" class="slide-circle"></div>
-            <div onclick="slideshow(2)" id="third-circle" class="slide-circle"></div>
-            <div onclick="slideshow(3)" id="fourth-circle" class="slide-circle"></div>
-            <div onclick="slideshow(4)" id="fifth-circle" class="slide-circle"></div>
+            <div onclick="slideshow(0)" onmouseover="circleMouseOver(0)" onmouseout="circleMouseOut(this, 0)" class="slide-circle"></div>
+            <div onclick="slideshow(1)" onmouseover="circleMouseOver(1)" onmouseout="circleMouseOut(this, 1)" class="slide-circle"></div>
+            <div onclick="slideshow(2)" onmouseover="circleMouseOver(2)" onmouseout="circleMouseOut(this, 2)" class="slide-circle"></div>
+            <div onclick="slideshow(3)" onmouseover="circleMouseOver(3)" onmouseout="circleMouseOut(this, 3)" class="slide-circle"></div>
+            <div onclick="slideshow(4)" onmouseover="circleMouseOver(4)" onmouseout="circleMouseOut(this, 4)" class="slide-circle"></div>
         </div>
     </div>
 
@@ -148,45 +148,62 @@
     </footer>
 
     <script>
-        const first = document.getElementById('first-slide');
-        const second = document.getElementById('second-slide');
-        const third = document.getElementById('third-slide');
-        const fourth = document.getElementById('fourth-slide');
-        const fifth = document.getElementById('fifth-slide');
-        
-        const slides = [first, second, third, fourth, fifth];
+    
+        const slides = [];
+        let pictures = document.getElementsByClassName('slide-picture');
+        for (let i = 0; i < pictures.length; i++){
+            slides.push(pictures[i]);
+        }
 
-        let circles = [];
+        const circles = [];
         let elements = document.getElementsByClassName('slide-circle');
         for(let i = 0; i < elements.length; i++){
             circles.push(elements[i]);
         }
 
+        const clicked = [];
+        for (let i = 0; i < circles.length; i++){
+            clicked.push(false);
+        }
+
         function changeSlide(number){
+            let index = 0;
             slides.forEach((element)=>{
                 element.style.opacity = "0";
+                clicked[index] = false;
+                index++;
             })
             
+            clicked[number] = true;
             slides[number].style.opacity = "1";
             slides[number].style.transition = "opacity 0.8s";
         }
 
-        function changeCircle(number){ 
-            circles.forEach((circle)=>{
-                circle.style.margin = "2px";
-                circle.style.height = "8px";
-                circle.style.width = "8px";
-                circle.style.borderRadius = "4px";
-                circle.style.backgroundColor = "white";
-                circle.style.transitionDuration = "0.3s";
-            })
-
+        function circleMouseOver(number){
             circles[number].style.margin = "0";
             circles[number].style.height = "12px";
             circles[number].style.width = "12px";
             circles[number].style.borderRadius = "6px";
             circles[number].style.backgroundColor = "transparent";
             circles[number].style.transitionDuration = "0.2s";
+        }
+
+        function circleMouseOut(circle, number){
+            if(clicked[number] === false){
+                circle.style.margin = "2px";
+                circle.style.height = "8px";
+                circle.style.width = "8px";
+                circle.style.borderRadius = "4px";
+                circle.style.backgroundColor = "white";
+                circle.style.transitionDuration = "0.3s";
+            }
+        }
+
+        function changeCircle(number){ 
+            circles.forEach((circle)=>{
+                circleMouseOut(circle, number);
+            })
+            circleMouseOver(number);
         }
 
         function slideshow(number){
