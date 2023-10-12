@@ -56,11 +56,11 @@
         <img id="fifth-slide" class="slide-picture" src="images/slideshow5.webp">
 
         <div id="slide-circle-container">
-            <div onclick="slideshow(0)" onmouseover="circleMouseOver(0)" onmouseout="circleMouseOut(this, 0)" class="slide-circle"></div>
-            <div onclick="slideshow(1)" onmouseover="circleMouseOver(1)" onmouseout="circleMouseOut(this, 1)" class="slide-circle"></div>
-            <div onclick="slideshow(2)" onmouseover="circleMouseOver(2)" onmouseout="circleMouseOut(this, 2)" class="slide-circle"></div>
-            <div onclick="slideshow(3)" onmouseover="circleMouseOver(3)" onmouseout="circleMouseOut(this, 3)" class="slide-circle"></div>
-            <div onclick="slideshow(4)" onmouseover="circleMouseOver(4)" onmouseout="circleMouseOut(this, 4)" class="slide-circle"></div>
+            <div onclick="slideshow(0)" onmouseover="circleMouseOver(0)" onmouseleave="circleMouseOut(this, 0)" class="slide-circle"></div>
+            <div onclick="slideshow(1)" onmouseover="circleMouseOver(1)" onmouseleave="circleMouseOut(this, 1)" class="slide-circle"></div>
+            <div onclick="slideshow(2)" onmouseover="circleMouseOver(2)" onmouseleave="circleMouseOut(this, 2)" class="slide-circle"></div>
+            <div onclick="slideshow(3)" onmouseover="circleMouseOver(3)" onmouseleave="circleMouseOut(this, 3)" class="slide-circle"></div>
+            <div onclick="slideshow(4)" onmouseover="circleMouseOver(4)" onmouseleave="circleMouseOut(this, 4)" class="slide-circle"></div>
         </div>
     </div>
 
@@ -161,8 +161,8 @@
             circles.push(elements[i]);
         }
 
-        const clicked = [];
-        for (let i = 0; i < circles.length; i++){
+        const clicked = [true];
+        for (let i = 1; i < circles.length; i++){
             clicked.push(false);
         }
 
@@ -172,8 +172,7 @@
                 element.style.opacity = "0";
                 clicked[index] = false;
                 index++;
-            })
-            
+            })  
             clicked[number] = true;
             slides[number].style.opacity = "1";
             slides[number].style.transition = "opacity 0.8s";
@@ -206,8 +205,26 @@
             circleMouseOver(number);
         }
 
+        function checkUnclicked(){
+            for(let i = 0; i < circles.length; i++){
+                if(clicked[i] === false){
+                    circles[i].style.margin = "2px";
+                    circles[i].style.height = "8px";
+                    circles[i].style.width = "8px";
+                    circles[i].style.borderRadius = "4px";
+                    circles[i].style.backgroundColor = "white";
+                    circles[i].style.transitionDuration = "0.3s";
+                }else{
+                    circleMouseOver(i);
+                }
+            }
+        }
+
+        checkUnclicked();
+
         function slideshow(number){
             changeSlide(number);
+            checkUnclicked();
             changeCircle(number);
         }
     </script>
